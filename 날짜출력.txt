@@ -1,0 +1,16 @@
+/// 실습 3 년/월/일을 입력하면 요일을 출력하라
+
+void main() {
+  DateTime date = DateTime(2002, 5, 21); // 예: 2025년 3월 11일
+
+  switch(date.weekday) {
+    case 1: print("월요일"); break;
+    case 2: print("화요일"); break;
+    case 3: print("수요일"); break;
+    case 4: print("목요일"); break;
+    case 5: print("금요일"); break;
+    case 6: print("토요일"); break;
+    case 7: print("일요일"); break;
+    default : print("잘못된 날짜입니다!"); break;
+  }
+}
