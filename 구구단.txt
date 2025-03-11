@@ -1,0 +1,12 @@
+//실습 1 구구단
+
+void main() {
+  
+  for(int x = 2; x<10; x++) {
+    for (int i = 1; i<10; i++) {
+      print("$x X $i = ${i*x}");
+    }
+    print(" ");
+  }
+
+}
