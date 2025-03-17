@@ -1,0 +1,49 @@
+자바 스크립트 형변환
+
+- 원칙적으로는 const 객체 = new 객체자료형 이름() 으로 지정하면 형변환이 가능하다.
+	기본자료형은 속성을 가지지 못하지만 객체자료형이 되면 속성을 가질수 있음
+ ex) const c = 10, c.sample = 15, c.sample선언시 undefine 나옴
+ -> const f = new Number(10), typeof(f)) 하면 objrect생성 f.sample = 15, f.sample 하면 15출력
+
+
+- 프로토타입으로 형변환
+	이 상황에서는 자료형자체는 변화가 없지만 객체자료형처럼 쓸수 있게 만들어줌
+ ex) 객체자료형.prototype. 메소드이름 = function() {}
+	Number.prototype.sample = 10, const i = 273, i.sample하면 10출력
+
+(   설명 
+Number.prototype.sample = 10;
+
+이 코드는 Number.prototype 객체에 sample이라는 새로운 속성을 추가하고, 그 값을 10으로 설정합니다.
+
+이는 모든 숫자가 공유하는 프로토타입에 속성을 추가한 것입니다.
+
+const i = 200;
+
+이는 단순히 i라는 변수에 숫자 200을 할당한 것입니다.
+
+이 시점에서 i에는 어떤 속성도 직접 추가되지 않았습니다.
+
+i.sample
+
+이 표현식은 i의 프로토타입 체인을 통해 sample 속성을 찾습니다.
+
+i 자체에는 sample 속성이 없지만, 그의 프로토타입인 Number.prototype에서 이 속성을 찾아 값 10을 반환합니다.
+
+따라서:
+
+sample은 Number.prototype의 속성이 됩니다.
+
+i에 직접 속성이 추가된 것이 아니라, i가 Number.prototype의 속성을 상속받아 사용할 수 있게 된 것입니다.)
+
+
+
+
+ *메소드 추가
+	Number.prototype.power = function( n = 2) {
+		return this.valueOf() ** n }
+
+const a = 12 
+console.log('a.power():',a.power())
+
+정리하면 프로토타입으로 접근하면 -> 객체자료형.프로토타입 이라는 객체의 속성값에 뭔가 지정이 되고 그 지정된 속성(변수)를 쓸수 있음.
