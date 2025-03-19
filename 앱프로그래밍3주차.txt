@@ -1,0 +1,231 @@
+  class Person{
+  String _name;
+  int _age;
+  String desc;
+    
+    String get name => _name;
+    int get age => _age;
+    
+    Person(this._name, this._age,{this.desc=''}); 
+  
+  void addOneYear() {
+    _age++;
+  }
+}
+
+void main() {
+  var p = Person('정세일',48);
+ 
+  print(p.age);
+  print(p.name);
+  
+  p.addOneYear();
+  print(p.age);
+  
+}
+
+
+-------
+
+class Rectangle {
+  num left, top, width, height;
+
+  Rectangle(this.left, this.top, this.width, this.height);
+
+  num get right => left + width;
+  set right(num value) => left = value - width;
+  num get bottom => top + height;
+  set bottom(num value) => top = value - height;
+}
+
+void main() {
+  var r = Rectangle(5, 10, 15, 20);
+  //상대좌표
+  print([r.left, r.top, r.width, r.height]);
+  print([r.right, r.bottom]);
+  //절대죄표
+  r.right = 15;
+  r.bottom = 20;
+
+  print([r.left, r.top, r.width, r.height]);
+}
+
+
+--------
+
+class Rectangle {
+  num left, top, right, bottom;
+
+  Rectangle(this.left, this.top, this.right, this.bottom);
+
+  num get width => right - left;
+  set width(num value) => right = left + value;
+  
+  num get height => bottom - top;
+  set height(num value) => bottom = top + value;
+}
+
+void main() {
+  var r = Rectangle(5, 10, 25, 35);
+
+  print([r.left, r.top, r.right, r.bottom]);
+ 
+  r.width = 10;
+  r.height = 20;
+  print([r.left,r.top,r.right,r.bottom]);
+}
+------
+
+class Hero {
+  String name = '영웅';
+  
+  void run() {
+    print('뛴다!');
+  }
+  
+
+}
+
+class SuperHero extends Hero {
+  @override
+  void run() {
+    print('나는 슈퍼 히어로!');
+    super.run();
+    this.fly();
+    print('나는 슈퍼 히어로! 끝');
+  }
+  void fly(){
+   print('난다!');
+  }
+}
+
+
+void main() {
+  Hero normalHero = new Hero();
+  Hero superHero = new SuperHero();
+  /*
+  print(normalHero.name);
+  print(superHero.name);
+  print(' ');
+  normalHero.run();
+  superHero.run();
+  */
+  
+  List<Hero> heroes = [normalHero,superHero];
+  heroes.forEach((hero) => hero.run());
+  
+  /*Hero hero = new SuperHero();
+  hero.run();
+  hero.fly();
+  print(hero.name);
+  print(hero is SuperHero);
+  print(hero is Hero);*/
+
+}
+---
+
+void main() {
+  List<int> lottoNums = [5, 6, 11, 13, 17, 21];
+  Map<String,String> countMap = {'한국': '서울', '일본': '도쿄', '중국': '북경'};
+  Set<int> setNums = {1, 2, 3, 4, 5, 6};
+
+  print(lottoNums[0]);
+  print(countMap['일본']);
+  print(setNums.contains(5));
+  
+  lottoNums.add(45);
+  print(lottoNums);
+  
+  countMap['인도']='뉴델리';
+  print(countMap);
+  
+  setNums.add(6);
+  print(setNums);
+}
+---
+
+void main() {
+  List<int> lottoNums = [5, 6, 11, 13, 17, 21];
+  /*lottoNums.forEach((a) {
+    print(a);
+  }); */
+  //lottoNums.forEach((a) => print(a));
+  //lottoNums.forEach(print);
+  var f = () => print('되네?');
+  f();
+}
+---
+
+void main() {
+  final items = [1, 2, 3, 4, 5];
+
+  /* var result = items;
+  result.add(6);
+  result.remove(2);
+  print(result);
+  */
+
+  print(
+    items
+      ..add(6)
+      ..remove(2),
+  );
+}
+
+---
+
+void main() {
+bool promoActive = true;
+  
+  var result = [1,2,3,4,5, if (promoActive) 6];
+  print(result);
+}
+
+---
+
+void main() {
+
+  var listOfInts = [1,2,3];
+  
+  var listOfString = [
+    '#0',
+    for (var i in listOfInts) '#$i'
+  ];
+  
+  print(listOfString);
+  
+}
+---
+
+class Person { 
+//? 입력시 초기값 안해도됨
+  String ?name;
+  int ?age;
+}
+
+void main() {
+
+  /*String? name;
+  print(name);*/
+  
+  var p = Person();
+  print([p.name,p.age]);
+  
+}
+---
+
+class Person { 
+//? 입력시 초기값 안해도됨
+  String ?name;
+  int ?age;
+}
+
+void main() {
+
+  /*String? name;
+  print(name);*/
+  
+  var p = Person();
+  //p.name = '정세일';
+  print(p.name?.length ?? 0);
+}
