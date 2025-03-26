@@ -1,0 +1,4 @@
+root 컨텍스트 vs survlet 컨텍스트
+
+root는 전체적인 설정
+survlet은 부분설정
