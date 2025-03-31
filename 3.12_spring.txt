@@ -1,0 +1,9 @@
+spring
+
+webapp은 기본적으로 url접근 가능
+web-inf는 불가능 (보안)
+
+
+컨트롤 + 쉬프트 + o 하면 import문 자동완성
+
+
