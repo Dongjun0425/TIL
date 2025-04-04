@@ -1,0 +1,24 @@
+GetObject
+
+putObject
+	
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "DenyUpload",
+			"Effect": "Deny",
+			"Principal": "*",
+			"Action": "s3:PutObject",
+			"Resource": [
+				"arn:aws:s3:::sgu-202562-s3/index.html",
+				"arn:aws:s3:::sgu-202562-s3/class/img/*"
+			],
+			"Condition": {
+				"IpAddress": {
+					"aws:SourceIp": "211.169.218.3"
+				}
+			}
+		}
+	]
+}
