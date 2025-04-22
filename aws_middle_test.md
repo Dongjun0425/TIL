@@ -1,4 +1,3 @@
-Here's the content formatted in Markdown for easier readability:
 # AWS 시험 요약
 
 ## 문제 구성
