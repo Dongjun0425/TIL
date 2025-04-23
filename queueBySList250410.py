@@ -55,7 +55,7 @@ if __name__ =="__main__" :
     q.add("orange")
     q.add("cherry")
     q.add("pear")
-
+    q.add("peach")
     print("사과, 오렌지, 체리, 배 삽입후=",end="")
     q.dispq()
 
