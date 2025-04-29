@@ -14,7 +14,7 @@
 }
 
 void main() {
-  var p = Person('Á¤¼¼ÀÏ',48);
+  var p = Person('ì •ì„¸ì¼',48);
  
   print(p.age);
   print(p.name);
@@ -40,10 +40,10 @@ class Rectangle {
 
 void main() {
   var r = Rectangle(5, 10, 15, 20);
-  //»ó´ëÁÂÇ¥
+  //ìƒëŒ€ì¢Œí‘œ
   print([r.left, r.top, r.width, r.height]);
   print([r.right, r.bottom]);
-  //Àı´ëÁËÇ¥
+  //ì ˆëŒ€ì£„í‘œ
   r.right = 15;
   r.bottom = 20;
 
@@ -77,10 +77,10 @@ void main() {
 ------
 
 class Hero {
-  String name = '¿µ¿õ';
+  String name = 'ì˜ì›…';
   
   void run() {
-    print('¶Ú´Ù!');
+    print('ë›´ë‹¤!');
   }
   
 
@@ -89,13 +89,13 @@ class Hero {
 class SuperHero extends Hero {
   @override
   void run() {
-    print('³ª´Â ½´ÆÛ È÷¾î·Î!');
+    print('ë‚˜ëŠ” ìŠˆí¼ íˆì–´ë¡œ!');
     super.run();
     this.fly();
-    print('³ª´Â ½´ÆÛ È÷¾î·Î! ³¡');
+    print('ë‚˜ëŠ” ìŠˆí¼ íˆì–´ë¡œ! ë');
   }
   void fly(){
-   print('³­´Ù!');
+   print('ë‚œë‹¤!');
   }
 }
 
@@ -126,17 +126,17 @@ void main() {
 
 void main() {
   List<int> lottoNums = [5, 6, 11, 13, 17, 21];
-  Map<String,String> countMap = {'ÇÑ±¹': '¼­¿ï', 'ÀÏº»': 'µµÄì', 'Áß±¹': 'ºÏ°æ'};
+  Map<String,String> countMap = {'í•œêµ­': 'ì„œìš¸', 'ì¼ë³¸': 'ë„ì¿„', 'ì¤‘êµ­': 'ë¶ê²½'};
   Set<int> setNums = {1, 2, 3, 4, 5, 6};
 
   print(lottoNums[0]);
-  print(countMap['ÀÏº»']);
+  print(countMap['ì¼ë³¸']);
   print(setNums.contains(5));
   
   lottoNums.add(45);
   print(lottoNums);
   
-  countMap['ÀÎµµ']='´ºµ¨¸®';
+  countMap['ì¸ë„']='ë‰´ë¸ë¦¬';
   print(countMap);
   
   setNums.add(6);
@@ -151,7 +151,7 @@ void main() {
   }); */
   //lottoNums.forEach((a) => print(a));
   //lottoNums.forEach(print);
-  var f = () => print('µÇ³×?');
+  var f = () => print('ë˜ë„¤?');
   f();
 }
 ---
@@ -198,7 +198,7 @@ void main() {
 ---
 
 class Person { 
-//? ÀÔ·Â½Ã ÃÊ±â°ª ¾ÈÇØµµµÊ
+//? ì…ë ¥ì‹œ ì´ˆê¸°ê°’ ì•ˆí•´ë„ë¨
   String ?name;
   int ?age;
 }
@@ -215,7 +215,7 @@ void main() {
 ---
 
 class Person { 
-//? ÀÔ·Â½Ã ÃÊ±â°ª ¾ÈÇØµµµÊ
+//? ì…ë ¥ì‹œ ì´ˆê¸°ê°’ ì•ˆí•´ë„ë¨
   String ?name;
   int ?age;
 }
@@ -226,6 +226,6 @@ void main() {
   print(name);*/
   
   var p = Person();
-  //p.name = 'Á¤¼¼ÀÏ';
+  //p.name = 'ì •ì„¸ì¼';
   print(p.name?.length ?? 0);
 }
