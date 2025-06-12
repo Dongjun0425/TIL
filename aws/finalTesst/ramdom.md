@@ -186,4 +186,177 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps({'error': str(e)}, ensure_ascii=False)
         }
-        
+
+
+
+
+# 당신은 새로운 애플리케이션의 사용자 행동 데이터를 기록하는 시스템을 개발하고 있습니다. 이 시스템은 각 사용자에게 **임의의 활동 점수(Activity Score)**를 부여하여 DynamoDB에 저장해야 합니다. 당신의 임무는 Lambda 함수를 개발하여 DynamoDB 테이블에 새로운 사용자 레코드를 추가하고, 이 레코드에 난수로 생성된 활동 점수를 포함하는 것입니다.(dynamodb 난수2개)
+import json
+import boto3
+import random # random 모듈 임포트
+from datetime import datetime
+
+def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+
+    # !!! 중요: 이 부분을 본인의 AWS 계정 ID와 학년반에 맞게 수정하세요 !!!
+    table_name = 'sgu-<aws계정>-<학년반>' 
+    table = dynamodb.Table(table_name)
+
+    # 1. 난수 값 생성
+    # 0부터 100 사이의 임의의 정수 생성
+    random_score = random.randint(0, 100) 
+    
+    # 2. 고유한 user_id 및 timestamp 생성
+    # (실제 시나리오에서는 event에서 user_id를 추출하거나, 유니크한 ID 생성 로직을 가집니다.)
+    user_id = f"test_user_{random.randint(1000, 9999)}" # 테스트용 임의 사용자 ID
+    current_timestamp = datetime.now().isoformat()
+
+    # 3. DynamoDB에 삽입할 아이템 구성
+    item = {
+        'user_id': user_id,            # 파티션 키
+        'timestamp': current_timestamp, # 정렬 키
+        'random_generated_score': random_score, # 생성된 난수 값
+        'message': f"난수 점수 {random_score}가 기록되었습니다."
+    }
+
+    try:
+        # 4. DynamoDB에 아이템 삽입
+        table.put_item(Item=item)
+        print(f"DynamoDB에 아이템 삽입 성공: {item}")
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'message': 'DynamoDB에 난수 값 삽입 성공!',
+                'inserted_item': item
+            }, ensure_ascii=False)
+        }
+
+    except Exception as e:
+        print(f"DynamoDB 삽입 실패: {e}")
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'message': 'DynamoDB 삽입 실패',
+                'error': str(e)
+            }, ensure_ascii=False)
+        }
+# 당신은 사용자 행동을 기록하는 애플리케이션의 테스트를 위해 DynamoDB에 더미 데이터를 삽입해야 합니다. 각 데이터에는 **임의의 "테스트 점수(Test Score)"**가 포함되어야 합니다. 당신의 임무는 Lambda 함수를 개발하여 DynamoDB 테이블에 새로운 테스트 레코드를 추가하고, 이 레코드에 난수로 생성된 테스트 점수를 포함하는 것입니다.(dynamodb 난수1개)
+import json
+import boto3
+import random # random 모듈 임포트
+from datetime import datetime
+
+def lambda_handler(event, context):
+    dynamodb = boto3.resource('dynamodb')
+
+    # --- 필수 수정 ---
+    # 시험 공지에 따라 본인의 AWS 계정 ID와 학년반을 사용하세요.
+    table_name = 'sgu-<본인_AWS_계정_ID>-<본인_학년반>' 
+    # 예시: 'sgu-202500-3a'
+    # ---------------
+    
+    table = dynamodb.Table(table_name)
+
+    # 1. 난수 값 생성 (1개만 사용)
+    # 1부터 100 사이의 임의의 정수 생성
+    test_score = random.randint(1, 100) 
+    
+    # 2. 고정된 user_id 및 현재 timestamp 생성
+    user_id_fixed = "test_user_alpha" # 문제에서 요구하는 고정된 user_id
+    current_timestamp = datetime.now().isoformat()
+
+    # 3. DynamoDB에 삽입할 아이템 구성
+    item = {
+        'user_id': user_id_fixed,        # 파티션 키 (고정된 값)
+        'timestamp': current_timestamp,  # 정렬 키 (현재 시간)
+        'TestScore': test_score,         # 생성된 난수 값 (핵심)
+        'Message': f"생성된 테스트 점수: {test_score}입니다."
+    }
+
+    try:
+        # 4. DynamoDB에 아이템 삽입
+        table.put_item(Item=item)
+        print(f"DynamoDB에 아이템 삽입 성공: {item}")
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'message': 'DynamoDB에 난수 값 삽입 성공!',
+                'inserted_item': item
+            }, ensure_ascii=False)
+        }
+
+    except Exception as e:
+        print(f"DynamoDB 삽입 실패: {e}")
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'message': 'DynamoDB 삽입 실패',
+                'error': str(e)
+            }, ensure_ascii=False)
+        }
+
+# 당신은 시스템의 자동화된 테스트를 위해 S3 버킷에 더미 파일을 생성해야 합니다. 이 파일에는 **임의의 "테스트 점수(Test Score)"**를 포함한 내용이 들어가야 합니다. 당신의 임무는 Lambda 함수를 개발하여 S3 버킷에 새로운 텍스트 파일을 업로드하고, 이 파일의 이름과 내용에 난수로 생성된 테스트 점수를 포함하는 것입니다.
+
+import json
+import boto3
+import random # random 모듈 임포트
+from datetime import datetime
+
+def lambda_handler(event, context):
+    s3 = boto3.client('s3')
+
+    # --- 필수 수정 ---
+    # 시험 공지에 따라 본인의 AWS 계정 ID를 사용하세요.
+    bucket_name = 'sgu-<본인_AWS_계정_ID>-s3' 
+    # 예시: 'sgu-202500-s3'
+    # ---------------
+    
+    # S3 버킷 내의 경로 (폴더)
+    s3_prefix = 'test_scores/'
+
+    # 1. 난수 값 생성 (1개만 사용)
+    # 1부터 100 사이의 임의의 정수 생성
+    test_score = random.randint(1, 100) 
+    
+    # 2. 현재 시간 생성 (파일명과 파일 내용에 사용)
+    current_time_dt = datetime.now()
+    current_time_iso = current_time_dt.isoformat() # ISO 8601 형식 (YYYY-MM-DDTHH:MM:SS.mmmmmm)
+    current_time_for_filename = current_time_dt.strftime('%H%M%S') # 파일명에 쓸 시분초 (HHMMSS)
+
+    # 3. 파일명 구성
+    file_name = f"{s3_prefix}test_score_report_{current_time_for_filename}.txt"
+
+    # 4. 파일 내용 구성
+    file_content = f"테스트 점수: {test_score} - 생성 시간: {current_time_iso}"
+
+    try:
+        # 5. S3에 파일 업로드
+        s3.put_object(
+            Bucket=bucket_name,
+            Key=file_name,
+            Body=file_content.encode('utf-8') # 내용을 UTF-8로 인코딩
+        )
+        print(f"S3에 파일 업로드 성공: {file_name}")
+        print(f"파일 내용: {file_content}")
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps({
+                'message': 'S3에 난수 값을 포함한 파일 업로드 성공!',
+                'uploaded_file_key': file_name,
+                'file_content': file_content
+            }, ensure_ascii=False)
+        }
+
+    except Exception as e:
+        print(f"S3 파일 업로드 실패: {e}")
+        return {
+            'statusCode': 500,
+            'body': json.dumps({
+                'message': 'S3 파일 업로드 실패',
+                'error': str(e)
+            }, ensure_ascii=False)
+        }
