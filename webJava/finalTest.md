@@ -99,9 +99,32 @@ ppt10
 
 ppt11
 4 log4j뭔지 특징파악 1버전 보안취약 그래서 2버전사용
+-  Apache에서 개발한 라이브러리, 빠른 성능과 유연한 설정을 제공 log4j1는 보안 취약점 발견! log4j2 사용권고, 자원봉사팀에 의해 적극적으로 유지/관리되고 대규모 커뮤니티의 지원을 받음
+
 5 각각 요소들 하는 역할 4개
-7 설정시 2가 자동활성화 로거의 name은 패키지명 또는 클래스 레벨은 작성한것 이상 예를들어, 이 상태면 기록이 되는지 안되는지
+Logger > 로그를 생성하는 핵심 객체, 레벨은 ERROR, WARN, INFO, DEBUG, TRACE로 원하는 수준의 로그만 출력가능
+Filter > 로그를 출력하기 전 특정 조건을 만족하는지 검사, 필요없는 로그를 걸러내거나 특정 조건의 로그만 출력 가능(보안로그)등
+Appender > 로그를 저장하거나 출력하는 역할, 로그를 파일, 콘솔, db, 서버 등에 저장 가능
+Layout > 로그의 출력 형식을 결정하는 역할, 날짜, 로그레벨, 클래스명 등 원하는 정보를 포함 가능
+
+7 설정시 2가 자동활성화 로거의 name은 패키지명 또는 클래스, 레벨은 작성한것 이상 예를들어, 이 상태면 기록이 되는지 안되는지
+-  log4j2.xml 파일이 존재하면 자동 활성화 됨, SpringBoot에서는 LOgback을 제외해야 적용
+ <Logger name="com.springmvc" level="DEBUG"/>
+ <Logger name="org.springframework.core" level="INFO"/>
+ <Logger name="org.springframework.beans" level="INFO"/>
+ <Logger name="org.springframework.context" level="INFO"/>
+ <Logger name="org.springframework.web" level="DEBUG"/>
+ <Logger name="org.springframework.security" level="DEBUG"/>
+ <Logger name="org.springframework.jdbc" level="DEBUG"/>
+ 
 9 레벨파악!
+-  TRACE <DEBUG < INFO < WARN < ERROR 순 (낮은거 - 높은거)
+TRACE : 처리흐름을추적할수있는메시지
+DEBUG : 디버그용도로시스템흐름에대한자세한정보를표현
+INFO : 시작, 종료같은런타임이벤트메시지
+WARN : 바람직하지않거나예기치않은런타임상황의경고성메시지
+ERROR :기타런타임오류또는예기치않은상태
+
 15 인터셉터가 뭔지 사용할때 어떤 구현체, 어떻게 사용하는지 등록방법
 18 핸들러 인터셉터 3개 각각 어떤 단계, 어떤 동작 //프리핸들은 시작시 등
 20 어소시어시 프로세싱 동기화 vs 비동기적* 어떤 차이점 각각 동작방식 파악 
