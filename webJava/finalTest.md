@@ -145,6 +145,16 @@ ppt12
 ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.KOREAN);
 String message = bundle.getString("welcome.message");
 System.out.println(message); // "안녕하세요!" 출력
+- MessageSource 구현체
+ResourceBundleMessageSource - 클래스패스, 즉시 반영되지 않음(재시작 필요), 고정된 메시지 관리
+ReloadableResourceBundleMessageSource - 클래스패스 + 파일 시스템 지원, 즉시반영, 실시간 메시지 변경 가능
+-  사용법
+<beans:bean id="messageSource"
+ class="org.springframework.context.support.MessageSource 구현체">
+ <beans:property name="basename" value="메시지 리소스 파일의 기본 이름" />
+ <beans:property name="defaultEncoding" value="인코딩 타입" />
+ ...
+ </beans:bean>
 
 9 기본은 iso-8859-1인데 옵션변경해서 utf-8로 변경, 파일위치
 -  utf-8로 변경하는 이유는 iso-8859-1은 보통 서유럽 언어(영어, 프라싱스어)만 표현 가능해서 변경해야됨. UTF-8은 전세계 언어 사용. // 파일위치는 src/main/resources에 위치해야됨. 파일이름은 파일이름_ko.properties(ex. messages_ko.properties)
