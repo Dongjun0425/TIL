@@ -32,6 +32,7 @@
 -  사용자인증(authentication)과 권한부여(authorization, 접근제어: Access Control) 등을 효율적으로구현가능
   
 ## 7 각각 태그 파악 뭔지 정확하게
+```xml
 <http> 시큐리티의시작과끝을나타내는데사용
 <intercept-url> 시큐리티가감시해야할URL과그URL에접근가능한권한을정의
 <form-login> 폼-로그인관련설정
@@ -40,6 +41,7 @@
 <authentication-provider> 사용자정보를인증요청하는데사용
 <user-service> 사용자정보를가져오는데사용
 <user> 사용자정보를나타내는데사용
+```
 
 ## 10 인터셉트 유알엘 어떤권한 있는 사용자만 parrten이랑 access 보고 어떤 사용자가 접근되고 안되고 유추 가능해야됨
 - <intercept-url pattern="/admin/**" access="hasRole('ADMIN')" /> 요기서 ADMIN이라는 사용자만 /admin에 접근 가능
@@ -70,6 +72,7 @@ invalidate-session로그아웃시세션을제거할지여부 기본값은true
 -  Springframework 6.0은 더이상 서드파티 Fileupload기능을 지원 x 그래서 Servlet API에서 지원하는 Fileupload를 사용
   
 ## 6 멀티파트 컨피그 설정들이 각각 뭔지 파악
+```xml
 <multipart-config>
  <location>C:\\webjavaapp\\{학번}\\upload</location> <!-- 업로드 된 파일을 저장할 경로-->
  <max-file-size>20971520</max-file-size> <!-- 업로드 되는 파일들의 최대 크기 20MB -->
@@ -77,6 +80,7 @@ invalidate-session로그아웃시세션을제거할지여부 기본값은true
  <file-size-threshold>20971520</file-size-threshold> <!-- 업로드된 파일이 디스크에 기록되는 크기 임계
 값 20MB -->
  </multipart-config>
+```
  
 ## 15 파일 업로드 경로******** 정확히 파악!!!!!
 - 업로드파일은웹애플리케이션의경로와무관한경로에저장한다 //예를들어 book-store 안에 image라는 폴더 만들지 말라는 소리
@@ -111,6 +115,7 @@ Layout > 로그의 출력 형식을 결정하는 역할, 날짜, 로그레벨, �
 
 ## 7 설정시 2가 자동활성화 로거의 name은 패키지명 또는 클래스, 레벨은 작성한것 이상 예를들어, 이 상태면 기록이 되는지 안되는지
 -  log4j2.xml 파일이 존재하면 자동 활성화 됨, SpringBoot에서는 LOgback을 제외해야 적용
+```xml
  <Logger name="com.springmvc" level="DEBUG"/>
  <Logger name="org.springframework.core" level="INFO"/>
  <Logger name="org.springframework.beans" level="INFO"/>
@@ -118,6 +123,7 @@ Layout > 로그의 출력 형식을 결정하는 역할, 날짜, 로그레벨, �
  <Logger name="org.springframework.web" level="DEBUG"/>
  <Logger name="org.springframework.security" level="DEBUG"/>
  <Logger name="org.springframework.jdbc" level="DEBUG"/>
+```
  
 ## 9 레벨파악!
 -  TRACE <DEBUG < INFO < WARN < ERROR 순 (낮은거 - 높은거)
@@ -151,12 +157,14 @@ System.out.println(message); // "안녕하세요!" 출력
 ResourceBundleMessageSource - 클래스패스, 즉시 반영되지 않음(재시작 필요), 고정된 메시지 관리
 ReloadableResourceBundleMessageSource - 클래스패스 + 파일 시스템 지원, 즉시반영, 실시간 메시지 변경 가능
 -  사용법
+```xml
 <beans:bean id="messageSource"
  class="org.springframework.context.support.MessageSource 구현체">
  <beans:property name="basename" value="메시지 리소스 파일의 기본 이름" />
  <beans:property name="defaultEncoding" value="인코딩 타입" />
  ...
  </beans:bean>
+```
 
 ## 9 기본은 iso-8859-1인데 옵션변경해서 utf-8로 변경, 파일위치
 -  utf-8로 변경하는 이유는 iso-8859-1은 보통 서유럽 언어(영어, 프라싱스어)만 표현 가능해서 변경해야됨. UTF-8은 전세계 언어 사용. // 파일위치는 src/main/resources에 위치해야됨. 파일이름은 파일이름_ko.properties(ex. messages_ko.properties)
