@@ -125,18 +125,57 @@ INFO : 시작, 종료같은런타임이벤트메시지
 WARN : 바람직하지않거나예기치않은런타임상황의경고성메시지
 ERROR :기타런타임오류또는예기치않은상태
 
-15 인터셉터가 뭔지 사용할때 어떤 구현체, 어떻게 사용하는지 등록방법
-18 핸들러 인터셉터 3개 각각 어떤 단계, 어떤 동작 //프리핸들은 시작시 등
-20 어소시어시 프로세싱 동기화 vs 비동기적* 어떤 차이점 각각 동작방식 파악 
+15 인터셉터가 뭔지 사용할때 어떤 구현체, 어떻게 사용하는지 등록방법, 18 핸들러 인터셉터 3개 각각 어떤 단계, 어떤 동작 //프리핸들은 시작시 등
+-  springMVC에서 요창과 응답 사이에서 특정 로직을 실행할 수 있도록 도와주는 기능(주로 로그인체크, 권한 검증, 로깅, 성능 모니터링)
+-  preHandle(요청이 컨트롤러에 도달하기 전), postHandle(컨트롤러가 실행된 후 추가 작업), afterCompletion(응답이 완료된 후 정리 작업)
+-  HandlerInterceptor 인터페이스 사용
+
+20 어소시어시 프로세싱 동기화 vs 비동기적* 어떤 차이점 각각 동작방식 파악
+-  동기화는 작업이 순차적으로 실행됨, 작업이 완료될 때까지 기다려야함, 응답 속도가 상대적으로 느림
+-  작업이 동시에 실행될 수 있음, 처리가 끝날 때까지 기다리지 않고 다음작업 가능, 응답 속도가 빠르고 cpu자원을 효율적으로 사용 가능
+
 23 쓰레드로컬 이 변수는 스레드됨. 특징들 파악
+- 스래드는 프로그램 내에서 독립적으로 실행되는 작업 단위, 각 스래드는 CPU 자원을 공유하지만, 자체적인 실행 흐름을 가짐
+- ThreadLocal은 각 스레드마다 독립적인 변수 값을 가짐, 스레드가 종료되면 해당 변수도 자동으로 제거, 즉 각 스레드가 자신만의 변수를 가질 수 있도록 도와줌, 멀티스레드 환경에서 데이터 충돌을 방지하고 안전한 데이터 관리 가능
 
 ppt12
 8 메시지 리소스 리소스번들 파악 + 파일이름 어떻게 저장 //파일이름_ko.properties등
+-  어플리케이션에서 사용하는 텍스트(메시지)를 별도의 파일로 관리하는 방식, 문자열을 작성하지 않고 필요할때 불러오는 식으로 사용(ex. welcom.message=안녕하세요) .properties파일로 관리
+- 메시지 리소스를 관리하는 java클래스, 다국어 지원을 위해 언어별 메시지 파일을 자동으로 선택
+ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.KOREAN);
+String message = bundle.getString("welcome.message");
+System.out.println(message); // "안녕하세요!" 출력
+
 9 기본은 iso-8859-1인데 옵션변경해서 utf-8로 변경, 파일위치
+-  utf-8로 변경하는 이유는 iso-8859-1은 보통 서유럽 언어(영어, 프라싱스어)만 표현 가능해서 변경해야됨. UTF-8은 전세계 언어 사용. // 파일위치는 src/main/resources에 위치해야됨. 파일이름은 파일이름_ko.properties(ex. messages_ko.properties)
+
 12 뷰 페이지 메시지출력 속성들 각각 어떤 역할인지 파악
+arguments메시지출력을위한인자들을전달
+argumentSeparator인자를구분할구분자(기본값콤마(,))
+code출력할메시지의키지정하지않으면text 속성에입력한값이출력됨
+htmlEscape HTML에서지원하는문자열형식으로변환(기본값false)
+javaScriptEscape JavaScript에서지원하는문자열형식으로변환(기본값false)
+message주로스프링MVC에서유효성검사를거친오류메시지를간단하게보여줄때사용
+scope결과를변수로내보낼때변수가적용되는범위(이속성은var가설정된경우에만유효함)
+text주어진code에대한메시지를찾을수없을때출력할기본텍스트
+var결과를page, request, session, application 범위에바인딩할때사용할변수명. 지정하지않으면메시지가직접JSP에출력됨.
+
 13 인자 사용방법 파악
+-  인자란 동적인 값을 메세지에 삽입하는 방법. 고정된 문자열이 아니라 실행중에 변하는 값을 메시지에 포함시킬 수 있는 방법
+welcome.message=안녕하세요, {0}님! 당신의 나이는 {1}세입니다.
+MessageSource messageSource = new ResourceBundleMessageSource();
+String message = messageSource.getMessage("welcome.message", new Object[]{"동준", 25}, Locale.KOREAN);
+System.out.println(message);
+{0} -> 첫 번째 인자("동준")
+{1} -> 두 번째 인자(25)
+
 24 로케일리졸버+로케일체인지가 뭐하는건지파악 구현체 4개 각각 어떤 방식으로 동작하는지 파악
+-  LocaleResolver는 사용자의 언어를 결정하는 역할. 웹 브라우저, 쿠키, 세션 등을 기반으로 적절한 언어를 선택해줌
+-  LocaleChangeInterceptor는 사용자가 언어를 변경할 수 있도록 도와주는 인터셉트. URL파이미터(?lang=ko)를 통해서 Locale 변경 가능. ?lang=en과 가이 URL입력하면 자동으로 언어 변경
 
-
+AcceptHeaderLocaleResolver 웹브라우저에설정된기본로케일정보를사용. HTTP 요청의accept-language 헤더에지정된기본로케일을사용.
+CookieLocaleResolver 쿠키를이용한로케일정보를사용. 사용자지정로케일, 표준시간대정보를브라우저쿠키로유지.
+SessionLocaleResolver 세션을이용한로케일정보를사용. 사용자세션에서locale 속성을사용하여지정된기본로케일또는요청의acceptheader 로케일로대체함.
+FixedLocaleResolver특정로케일을지정. 항상고정된기본로케일을반환하고선택적으로시간대를반환.
 
 +실습한 예제 소스로 출제
